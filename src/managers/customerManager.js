@@ -19,7 +19,6 @@ export default class CustomerManager
                 this.customerDB.get(customerID).getPurchaseCount() + 1
             );
         }
-        console.log(this.customerDB.get(customerID).getPurchaseCount());
     }
 
     getCustomerPurchaseCount(customerID)
