@@ -3,29 +3,23 @@ let router = express.Router();
 import CustomerManager from '../managers/customerManager';
 import TransactionManager from '../managers/transactionManager';
 import DiscountManager from '../managers/discountCodeManager';
+import CustomerAPI from '../apis/customer/customer_api'
+import AdminAPI from '../apis/admin/admin_api'
 
 const customerManager = new CustomerManager();
 const transactionManager = new TransactionManager();
 const discountManager = new DiscountManager();
 
-import CustomerAPI from '../apis/customer/customer_api'
-import AdminAPI from '../apis/admin/admin_api'
-
-const managersForCustomer = 
-{
+const customerAPI = new CustomerAPI({
     customer: customerManager,
     discount: discountManager,
     transaction: transactionManager
-}
+}); 
 
-const managersForAdmin =
-{
+const adminAPI = new AdminAPI({
     discount: discountManager,
     transaction: transactionManager
-}
-
-const customerAPI = new CustomerAPI(managersForCustomer); 
-const adminAPI = new AdminAPI(managersForAdmin);
+});
 
 router.route('/getDiscount').post(customerAPI.getDiscountFunction());
 router.route('/setDiscount').post(adminAPI.setDiscountFunction());
