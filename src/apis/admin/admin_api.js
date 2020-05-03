@@ -10,22 +10,16 @@ export default class AdminAPI
 
     getTotalPurchaseCountFunction()
     {
-        return (req, res) =>
-            {
-                return res.status(200).json({
-                    totalPurchaseCount: this.transManager.getTotalPurchaseCount()
-                });
-            }
+        return (req, res) => res.status(200).json({
+                totalPurchaseCount: this.transManager.getTotalPurchaseCount() });
+            
     } 
 
     getTotalDiscountFunction()
     {
-        return (req, res) =>
-            {
-                return res.status(200).json({
+        return (req, res) => res.status(200).json({
                     totalDiscountCount: this.transManager.getDiscountPurchaseCount()
                 });
-            }
     }
     
     setDiscountFunction()
