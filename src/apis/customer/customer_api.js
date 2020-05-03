@@ -11,30 +11,25 @@ export default class CustomerAPI
     {
         return (req, res) => {
             this.customerManager.setCustomerPurchaseCount(req.body.id);
-            if (this.transManager.getN() % this.customerManager.getCustomerPurchaseCount(req.body.id) == 0)
-            {
-                if (this.discountCodeManager.getDiscount())
-                {
-                    this.transManager.updateDiscountPurchaseCount();
-                    this.transManager.updatePurchaseCount();
-                    res.status(200).json({
-                        perchasedWithDiscount: true
-                    });
-                } else
-                {
-                    this.transManager.updatePurchaseCount();
-                    res.status(200).json({
-                        perchasedWithDiscount: false
-                    });
-                }
-            } else
-            {
-                this.transManager.updatePurchaseCount();
-                res.status(200).json({
-                        perchasedWithDiscount: false
-                });
+            
+            let response = _sendResponseWithDiscount(false);
+            
+            if (this.transManager.getN() % this.customerManager.getCustomerPurchaseCount(req.body.id) == 0 && 
+                    this.discountCodeManager.getDiscount()) {
+                this.transManager.updateDiscountPurchaseCount();
+                response = _sendResponseWithDiscount(true);
             }
+            
+            this.transManager.updatePurchaseCount();
+            
+            return response;
         }
+    }
+    
+    _sendResponseWithDiscount(discounted) {
+        return res.status(200).json({
+            perchasedWithDiscount: discounted
+        });
     }
 
     getDiscountFunction()
