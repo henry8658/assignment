@@ -11,14 +11,9 @@ export default class CustomerManager
         if (!this.customerDB.has(customerID))
         {
             this.customerDB.set(customerID, new Customer(customerID));
-            this.customerDB.get(customerID).setPurchaseCount(1);
         }
-        else
-        {
-            this.customerDB.get(customerID).setPurchaseCount(
-                this.customerDB.get(customerID).getPurchaseCount() + 1
-            );
-        }
+        this.customerDB.get(customerID).incrementPurchaseCount(); // do this in customer that adds one on what it has. This should also add for the case of no customerID as customer starts off purchaseCount with 0
+        
     }
 
     getCustomerPurchaseCount(customerID)
